@@ -6,13 +6,13 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProjectsTest extends TestCase
+class ManageProjectsTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
 
     /** @test */
-    public function guest_cannot_create_project()
+public function guest_cannot_create_project()
     {
 
         // $attributes = factory('App\Project')->raw(['owner_id' => null]);
@@ -26,6 +26,7 @@ class ProjectsTest extends TestCase
 
         $attributes = factory('App\Project')->raw();
 
+        $this->get('/projects/create')->assertRedirect('login');
         $this->post('/projects', $attributes)->assertRedirect('login');
 
 
