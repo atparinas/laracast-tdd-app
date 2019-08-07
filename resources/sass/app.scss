@@ -14,3 +14,7 @@
 
 @import "~tailwindcss/utilities";
 
+
+.card {
+    @apply .bg-white .rounded-lg .shadow .p-5 ;
+}
