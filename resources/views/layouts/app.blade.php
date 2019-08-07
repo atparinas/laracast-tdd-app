@@ -24,8 +24,9 @@
         <nav class="bg-white">
             <div class="container mx-auto">
                 <div class="flex justify-between py-3 items-center">
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="flex items-center" href="{{ url('/') }}">
+                        <img src="/images/logo.svg" alt="birdboard">
+                        <span>{{ config('app.name', 'Laravel') }}</span>
                     </a>
                     <div>
                         <!-- Right Side Of Navbar -->
@@ -65,7 +66,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="container mx-auto py-4">
             @yield('content')
         </main>
     </div>
