@@ -12,6 +12,26 @@ class ProjectsTest extends TestCase
 
 
     /** @test */
+    public function only_authenticated_user_can_create_project()
+    {
+
+        // $attributes = factory('App\Project')->raw(['owner_id' => null]);
+
+        // $this->post('/projects', $attributes)->assertSessionHasErrors('owner_id');
+
+        /**
+         * Tweaking the above code. Instead of requiring owner_id,
+         * requires redirect if the user is not signin and tries to create a project
+         */
+
+        $attributes = factory('App\Project')->raw();
+
+        $this->post('/projects', $attributes)->assertRedirect('login');
+
+
+    }
+
+    /** @test */
     public function a_user_can_create_a_project()
     {
 
@@ -21,11 +41,16 @@ class ProjectsTest extends TestCase
          */
         $this->withoutExceptionHandling();
 
-        $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph
-        ];
+        /**
+         * This will simulate an authenticated user
+         */
 
+        $user =factory('App\User')->create();
+        $this->actingAs($user);
+ 
+
+        $attributes = factory('App\Project')->raw(['owner_id' => $user->id]);
+        
         $this->post('/projects', $attributes)->assertRedirect('/projects');
 
         $this->assertDatabaseHas('projects', $attributes);
@@ -37,7 +62,9 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_user_can_view_a_project()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
+        $this->actingAs(factory('App\User')->create());
+
 
         $project = factory('App\Project')->create();
 
@@ -50,6 +77,12 @@ class ProjectsTest extends TestCase
      /** @test */
      public function a_project_requires_a_title()
      {
+          /**
+         * This will simulate an authenticated user
+         */
+        $this->actingAs(factory('App\User')->create());
+
+
          /**
           * Raw will build the attribute but store in array
           */
@@ -61,9 +94,18 @@ class ProjectsTest extends TestCase
        /** @test */
        public function a_project_requires_a_description()
        {
+
+            /**
+             * This will simulate an authenticated user
+             */
+            $this->actingAs(factory('App\User')->create());
+
+
             $attributes = factory('App\Project')->raw(['description'=>'']);
 
 
-           $this->post('/projects', $attributes)->assertSessionHasErrors('description');
+            $this->post('/projects', $attributes)->assertSessionHasErrors('description');
        }
+
+        
 }
