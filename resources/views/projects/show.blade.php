@@ -13,15 +13,27 @@
             <div class="lg:w-3/4 mx-3 sm:mb-6">
                 <div class="mb-6">
                     <h2 class="mr-auto text-gray-700 font-normal text-lg mb-3">Tasks</h2>
+                    @foreach ($project->tasks as $task)
+                        <form action="{{ $task->path() }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <div class="card mb-2">
+                               <div class="flex items-center">
+                                    <input type="text" name="body" class="w-full {{ $task->completed ? 'text-gray-500' : ''}} "
+                                        value="{{ $task->body }}">
+                                    <input type="checkbox" name="completed" {{ $task->completed ? 'checked' : '' }}
+                                        onchange="this.form.submit()">
+                               </div>
+                            </div>    
+                        </form> 
+                    @endforeach
                     <div class="card mb-2">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-                    <div class="card mb-2">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-                    <div class="card mb-2">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
+                        <form action="{{$project->path() . '/tasks' }}" method="post">
+                                @csrf
+                                <input type="text" name="body" id="body" placeholder="Begin Adding Task"
+                                class="w-full">
+                        </form>
+                    </div>         
                 </div>
                 <div>
                     <h2 class="mr-auto text-gray-700 font-normal text-lg mb-3">General Notes</h2>

@@ -64,8 +64,8 @@ public function guest_cannot_create_project()
          * This will simulate an authenticated user
          */
 
-        $user =factory('App\User')->create();
-        $this->actingAs($user);
+        $user = factory('App\User')->create();
+        $this->signIn($user);
  
 
         $attributes = factory('App\Project')->raw(['owner_id' => $user->id]);
@@ -83,7 +83,7 @@ public function guest_cannot_create_project()
     {
         // $this->withoutExceptionHandling();
         $user = factory('App\User')->create();
-        $this->actingAs($user);
+        $this->signIn($user);
 
 
         $project = factory('App\Project')->create(['owner_id' => $user->id]);
@@ -98,8 +98,9 @@ public function guest_cannot_create_project()
     public function a_user_cannot_view_projects_of_others()
     {
         // $this->withoutExceptionHandling();
-        $this->actingAs(factory('App\User')->create());
 
+        // $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
         $project = factory('App\Project')->create();
 
@@ -114,7 +115,8 @@ public function guest_cannot_create_project()
           /**
          * This will simulate an authenticated user
          */
-        $this->actingAs(factory('App\User')->create());
+        // $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
 
          /**
@@ -132,7 +134,8 @@ public function guest_cannot_create_project()
             /**
              * This will simulate an authenticated user
              */
-            $this->actingAs(factory('App\User')->create());
+            // $this->actingAs(factory('App\User')->create());
+            $this->signIn();
 
 
             $attributes = factory('App\Project')->raw(['description'=>'']);
