@@ -37,9 +37,12 @@
                 </div>
                 <div>
                     <h2 class="mr-auto text-gray-700 font-normal text-lg mb-3">General Notes</h2>
-                    <textarea rows="10" class="card w-full"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut maxime adipisci totam? Dolorum ad 
-                            cumque commodi assumenda, est, rem consequatur exercitationem similique mollitia neque dolor culpa 
-                            rerum autem consequuntur nihil.</textarea>
+                    <form action="{{ $project->path() }} " method="post">
+                        @csrf
+                        @method('PATCH')
+                        <textarea name="notes" rows="10" class="card w-full">{{ $project->notes }}</textarea>
+                        <button type="submit" class="button" >Save</button>
+                    </form>
                 </div>
             </div>
             <div class="lg:w-1/4 mx-3">
