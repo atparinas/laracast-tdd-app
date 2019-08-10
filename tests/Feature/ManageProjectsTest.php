@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Project;
+use Tests\Setup\ProjectFactory;
 
 class ManageProjectsTest extends TestCase
 {
@@ -55,24 +56,21 @@ public function guest_cannot_create_project()
     public function a_user_can_update_a_project()
     {
 
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
 
-        $this->signIn();
+        $project = app(ProjectFactory::class)->create();
  
         $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'notes' => 'General Notes Here'
+            'notes' => 'changed',
+            'title' => 'changed',
+            'description' => 'changed'
         ];
-
-        $project = factory(Project::class)->create();
         
-        $this->patch($project->path(), [
-            'notes' => 'changed'
-        ]);
+        $this->actingAs($project->owner) 
+            ->patch($project->path(), $attributes);
         
-        $this->assertDatabaseHas('projects', ['notes' => 'changed']);
+        $this->assertDatabaseHas('projects', $attributes);
 
 
     }

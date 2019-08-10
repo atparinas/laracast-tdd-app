@@ -11523,6 +11523,32 @@ video {
   padding: 1.25rem;
 }
 
+.input-text {
+  background-color: #fff;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-width: 1px;
+  border-color: #a0aec0;
+  border-radius: 0.25rem;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: #1a202c;
+  line-height: 1.25;
+}
+
+.input-label {
+  display: block;
+  color: #718096;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
 @media (min-width: 640px){
   .sm\:sr-only{
     position: absolute;
