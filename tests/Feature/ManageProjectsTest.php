@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Project;
-use Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectFactory;
 
 class ManageProjectsTest extends TestCase
 {
@@ -126,7 +126,7 @@ public function guest_cannot_create_project()
          // $this->withoutExceptionHandling();
  
  
-         $project = app(ProjectFactory::class)->create();
+         $project = ProjectFactory::create();
   
          $attributes = [
              'notes' => 'changed',
