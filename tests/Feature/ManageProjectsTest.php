@@ -52,6 +52,49 @@ public function guest_cannot_create_project()
 
     }
 
+   
+    /** @test */
+    public function a_user_can_create_a_project()
+    {
+
+        $this->withoutExceptionHandling();
+
+        /**
+         * will disable Laravel graceful error handling.
+         * Good to disable in the Test Class
+         */
+        // $this->withoutExceptionHandling();
+
+        /**
+         * This will simulate an authenticated user
+         */
+
+        $user = factory('App\User')->create();
+        $this->signIn($user);
+
+        $attributes = [
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'notes' => 'General Notes Here'
+        ];
+        
+        $response = $this->post('/projects', $attributes);
+
+        $project = Project::where($attributes)->first();
+
+        $response->assertRedirect($project->path());
+
+        // $this->assertDatabaseHas('projects', $attributes);
+
+        $this->get($project->path())
+            ->assertSee($attributes['title'])
+            ->assertSee($attributes['description'])
+            ->assertSee($attributes['notes']);
+
+
+    }
+
+
     /** @test */
     public function a_user_can_update_a_project()
     {
@@ -60,7 +103,7 @@ public function guest_cannot_create_project()
 
 
         $project = app(ProjectFactory::class)->create();
- 
+
         $attributes = [
             'notes' => 'changed',
             'title' => 'changed',
@@ -76,46 +119,26 @@ public function guest_cannot_create_project()
     }
 
 
-      /** @test */
-      public function a_user_can_create_a_project()
-      {
+     /** @test */
+     public function a_user_can_update_project_notes()
+     {
+ 
+         // $this->withoutExceptionHandling();
+ 
+ 
+         $project = app(ProjectFactory::class)->create();
   
-          $this->withoutExceptionHandling();
-  
-          /**
-           * will disable Laravel graceful error handling.
-           * Good to disable in the Test Class
-           */
-          // $this->withoutExceptionHandling();
-  
-          /**
-           * This will simulate an authenticated user
-           */
-  
-          $user = factory('App\User')->create();
-          $this->signIn($user);
-   
-          $attributes = [
-              'title' => $this->faker->sentence,
-              'description' => $this->faker->paragraph,
-              'notes' => 'General Notes Here'
-          ];
-          
-          $response = $this->post('/projects', $attributes);
-  
-          $project = Project::where($attributes)->first();
-  
-          $response->assertRedirect($project->path());
-  
-          // $this->assertDatabaseHas('projects', $attributes);
-  
-          $this->get($project->path())
-              ->assertSee($attributes['title'])
-              ->assertSee($attributes['description'])
-              ->assertSee($attributes['notes']);
-  
-  
-      }
+         $attributes = [
+             'notes' => 'changed',
+         ];
+         
+         $this->actingAs($project->owner) 
+             ->patch($project->path(), $attributes);
+         
+         $this->assertDatabaseHas('projects', $attributes);
+ 
+ 
+     }
 
     /** @test */
     public function a_user_can_view_their_project()
