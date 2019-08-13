@@ -15,10 +15,7 @@ class ProjectObeserver
      */
     public function created(Project $project)
     {
-        Activity::create([
-            'project_id' => $project->id,
-            'description' => 'created'
-        ]);
+        $project->recordActivity('project_created');
     }
 
     /**
@@ -29,10 +26,7 @@ class ProjectObeserver
      */
     public function updated(Project $project)
     {
-        Activity::create([
-            'project_id' => $project->id,
-            'description' => 'updated'
-        ]);
+        $project->recordActivity('project_updated');
     }
 
     /**

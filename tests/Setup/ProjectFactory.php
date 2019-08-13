@@ -15,6 +15,7 @@ class ProjectFactory
 
     public function withTasks($count)
     {
+        
         $this->taskCount = $count;
 
         return $this;
@@ -33,7 +34,7 @@ class ProjectFactory
         $project = factory(Project::class)->create([
                         'owner_id' => $this->user ?? factory(User::class)
                     ]);
-
+        
         
         factory(Task::class, $this->taskCount)->create([
             'project_id' => $project->id

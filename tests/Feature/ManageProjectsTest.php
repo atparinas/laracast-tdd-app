@@ -102,7 +102,7 @@ public function guest_cannot_create_project()
         // $this->withoutExceptionHandling();
 
 
-        $project = app(ProjectFactory::class)->create();
+        $project = ProjectFactory::create();
 
         $attributes = [
             'notes' => 'changed',

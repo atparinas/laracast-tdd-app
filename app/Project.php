@@ -34,6 +34,28 @@ class Project extends Model
         /**
          * compact('body') similar to ['body' => $body]
          */
-        return $this->tasks()->create(compact('body'));
+        // return $this->tasks()->create(compact('body'));
+
+
+        $task = $this->tasks()->create(compact('body'));
+
+        return $task;
+
+
+    }
+
+    public function recordActivity($activity)
+    {
+        // Activity::create([
+        //     'project_id' => $this->id,
+        //     'description' => $activity
+        // ]);
+
+        /**
+         * since the Project have relationship with the activity
+         * the above code can be refactor
+         */
+
+         $this->activity()->create(['description' => $activity ]);
     }
 }

@@ -14,6 +14,19 @@ class Task extends Model
      */
     protected $touches = ['project'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($task){
+            $task->project->recordActivity('task_created');
+        });
+
+        static::updated(function($task){
+            $task->project->recordActivity('task_status_updated');            
+        });
+    }
+
 
     public function project()
     {
